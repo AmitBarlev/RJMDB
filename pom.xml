@@ -17,6 +17,7 @@
 	<properties>
 		<java.version>17</java.version>
 		<jooq.version>3.19.8</jooq.version>
+		<r2dbc-postgresql.version>1.0.5.RELEASE</r2dbc-postgresql.version>
 	</properties>
 
 	<dependencies>
@@ -47,7 +48,7 @@
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>r2dbc-postgresql</artifactId>
-			<version>1.0.5.RELEASE</version>
+			<version>${r2dbc-postgresql.version}</version>
 		</dependency>
 
 		<dependency>
