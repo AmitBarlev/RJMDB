@@ -1,15 +1,7 @@
 # spring.profiles.active=local in Environment Variables in order to run
 
 persistence:
-  generator:
-    database-name: "db"
-    includes: ".*"
-    excludes: ""
-    inputSchema: "public"
-    packageName: "com.abl.rjmdb.model.jooq"
-    targetDirectory: "target/generated-sources/jooq"
   database:
-    jdbc-driver: "org.postgresql.Driver"
     driver: "postgresql"
     protocol: "r2dbc"
     host: "127.0.0.1"

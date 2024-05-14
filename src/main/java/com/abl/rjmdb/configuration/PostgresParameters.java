@@ -11,7 +11,6 @@ import org.springframework.context.annotation.Configuration;
 @ConfigurationProperties(prefix = "persistence.database")
 public class PostgresParameters {
 
-    private String jdbcDriver;
     private String protocol;
     private String driver;
     private String host;
