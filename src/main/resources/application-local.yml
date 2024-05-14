@@ -1,0 +1,11 @@
+# spring.profiles.active=local in Environment Variables in order to run
+
+persistence:
+  database:
+    driver: "postgresql"
+    protocol: "r2dbc"
+    host: "127.0.0.1"
+    port: 5432
+    user: "user"
+    password: "password"
+    database-name: "db"
