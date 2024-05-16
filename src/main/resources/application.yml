@@ -1,3 +1,9 @@
 spring:
   application:
     name: "rjmdb"
+
+springdoc:
+  api-docs:
+    path: /v3/swagger-ui.html
+  swagger-ui:
+    path: /v3/api-docs
