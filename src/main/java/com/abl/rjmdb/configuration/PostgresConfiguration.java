@@ -6,7 +6,9 @@ import io.r2dbc.spi.ConnectionFactoryOptions;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.jooq.DSLContext;
+import org.jooq.SQLDialect;
 import org.jooq.impl.DSL;
+import org.jooq.tools.jdbc.MockConnection;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

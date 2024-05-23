@@ -1,16 +1,10 @@
 package com.abl.rjmdb.persistance;
 
-import com.abl.rjmdb.model.jooq.Tables;
-import com.abl.rjmdb.model.jooq.tables.Rentals;
 import com.abl.rjmdb.model.jooq.tables.records.RentalsRecord;
 import lombok.RequiredArgsConstructor;
 import org.jooq.DSLContext;
 import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Mono;
-import reactor.core.scheduler.Scheduler;
-import reactor.core.scheduler.Schedulers;
-
-import java.time.LocalDateTime;
 
 import static com.abl.rjmdb.model.jooq.Tables.RENTALS;
 
@@ -30,10 +24,11 @@ public class DatabaseMovieRepository implements MovieRepository {
 
     @Override
     public RentalsRecord update(RentalsRecord record) {
-        Mono.fromFuture(dsl.update(RENTALS)
-                .set(RENTALS.END_TIME, record.getEndTime())
-                .executeAsync().toCompletableFuture())
-                .subscribeOn(Schedulers.boundedElastic())
+        Mono.fromFuture(dsl
+                        .update(RENTALS)
+                        .set(RENTALS.END_TIME, record.getEndTime())
+                        .executeAsync()
+                        .toCompletableFuture())
                 .subscribe();
 
         return record;
