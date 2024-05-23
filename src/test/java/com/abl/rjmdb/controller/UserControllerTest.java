@@ -53,4 +53,20 @@ public class UserControllerTest {
 
         verify(userService).signup(signupInfo);
     }
+
+    @Test
+    public void update_sanity_monoWithValue()  {
+        UserSignupInfo signupInfo = new UserSignupInfo();
+        User user = new User();
+
+        doReturn(Mono.just(user)).when(userService).update(signupInfo);
+
+        Mono<User> output = userController.update(signupInfo);
+
+        StepVerifier.create(output)
+                .expectNextCount(1)
+                .verifyComplete();
+
+        verify(userService).update(signupInfo);
+    }
 }
