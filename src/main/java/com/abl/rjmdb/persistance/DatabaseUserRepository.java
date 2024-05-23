@@ -6,8 +6,6 @@ import org.jooq.DSLContext;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Mono;
-import reactor.core.scheduler.Scheduler;
-import reactor.core.scheduler.Schedulers;
 
 
 @Repository
@@ -15,11 +13,9 @@ import reactor.core.scheduler.Schedulers;
 @RequiredArgsConstructor
 public class DatabaseUserRepository implements UserRepository {
 
-    private final DSLContext context;
-
     @Override
     public UsersRecord save(UsersRecord record) {
-        Mono.from(x -> record.store())
+        Mono.fromCallable(record::store)
                 .subscribe();
 
         return record;
@@ -27,7 +23,7 @@ public class DatabaseUserRepository implements UserRepository {
 
     @Override
     public UsersRecord update(UsersRecord record) {
-        Mono.from(x -> record.update())
+        Mono.fromCallable(record::update)
                 .subscribe();
 
         return record;

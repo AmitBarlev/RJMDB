@@ -1,11 +1,11 @@
-CREATE TABLE users (
+CREATE TABLE user (
     id BIGSERIAL PRIMARY  KEY,
     first_name TEXT NOT NULL,
     last_name TEXT NOT NULL,
     address TEXT NOT NULL
 );
 
-CREATE TABLE rentals (
+CREATE TABLE rental (
     id BIGSERIAL PRIMARY KEY,
     user_id BIGSERIAL NOT NULL,
     CONSTRAINT fk_user_id FOREIGN KEY (user_id) REFERENCES users(id),

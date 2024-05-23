@@ -6,4 +6,6 @@ import reactor.core.publisher.Mono;
 public interface MovieRepository {
 
     RentalsRecord save(RentalsRecord record);
+
+    RentalsRecord update(RentalsRecord record);
 }

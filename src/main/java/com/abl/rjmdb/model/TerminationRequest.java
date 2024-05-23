@@ -1,9 +1,16 @@
 package com.abl.rjmdb.model;
 
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
+
+import java.security.PrivateKey;
+import java.time.LocalDateTime;
 
 @Data
-@RequiredArgsConstructor
+@Generated
+@NoArgsConstructor
+@AllArgsConstructor
 public class TerminationRequest {
+
+    private long id;
+    private LocalDateTime time;
 }

@@ -1,11 +1,9 @@
 package com.abl.rjmdb.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 @Data
+@Generated
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserSignupInfo {

@@ -1,4 +1,4 @@
-package com.abl.rjmdb;
+package com.abl.rjmdb.controller;
 
 import com.abl.rjmdb.controller.MovieController;
 import com.abl.rjmdb.model.RentalRequest;
