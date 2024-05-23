@@ -49,7 +49,7 @@ public class UserServiceTest {
         User user = new User(id, a, b, c);
 
         doReturn(record).when(mapper).map(signupInfo, UsersRecord.class);
-        doReturn(record).when(userRepository).save(record);
+        doReturn(Mono.just(record)).when(userRepository).save(record);
         doReturn(user).when(mapper).map(record, User.class);
 
         Mono<User> output = userService.signup(signupInfo);
@@ -105,7 +105,7 @@ public class UserServiceTest {
         UsersRecord record = new UsersRecord(id, a, b, c);
 
         doReturn(record).when(mapper).map(signupInfo, UsersRecord.class);
-        doReturn(record).when(userRepository).save(record);
+        doReturn(Mono.just(record)).when(userRepository).save(record);
         doThrow(new RuntimeException()).when(mapper).map(record, User.class);
 
         Mono<User> output = userService.signup(signupInfo);
@@ -127,7 +127,7 @@ public class UserServiceTest {
         User user = new User(id, a, b, c);
 
         doReturn(record).when(mapper).map(signupInfo, UsersRecord.class);
-        doReturn(record).when(userRepository).update(record);
+        doReturn(Mono.just(record)).when(userRepository).update(record);
         doReturn(user).when(mapper).map(record, User.class);
 
         Mono<User> output = userService.update(signupInfo);
@@ -183,7 +183,7 @@ public class UserServiceTest {
         UsersRecord record = new UsersRecord(id, a, b, c);
 
         doReturn(record).when(mapper).map(signupInfo, UsersRecord.class);
-        doReturn(record).when(userRepository).update(record);
+        doReturn(Mono.just(record)).when(userRepository).update(record);
         doThrow(new RuntimeException()).when(mapper).map(record, User.class);
 
         Mono<User> output = userService.update(signupInfo);

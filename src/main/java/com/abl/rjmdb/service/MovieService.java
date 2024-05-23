@@ -12,6 +12,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
+import java.time.LocalDateTime;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -23,14 +25,16 @@ public class MovieService {
 
     public Mono<RentalStatus> rent(RentalRequest info) {
         return Mono.fromCallable(() -> mapper.map(info, RentalsRecord.class))
-                .map(repository::save)
+                .doOnNext(record -> record.setStartTime(LocalDateTime.now()))
+                .doOnNext(repository::save)
                 .map(record -> mapper.map(record, RentalStatus.class))
                 .doOnError(x -> log.error("Movie rental failed"));
     }
 
     public Mono<TerminationStatus> terminate(TerminationRequest info) {
         return Mono.fromCallable(() -> mapper.map(info, RentalsRecord.class))
-                .map(repository::update)
+                .doOnNext(record -> record.setEndTime(LocalDateTime.now()))
+                .doOnNext(repository::update)
                 .map(record -> mapper.map(record, TerminationStatus.class))
                 .doOnError(x -> log.error("Cannot return movie"));
     }

@@ -53,7 +53,7 @@ public class MovieServiceTest {
         RentalStatus status = new RentalStatus(id, a, LocalDateTime.MIN);
 
         doReturn(record).when(mapper).map(rentalRequest, RentalsRecord.class);
-        doReturn(record).when(movieRepository).save(record);
+        doReturn(Mono.just(record)).when(movieRepository).save(record);
         doReturn(status).when(mapper).map(record, RentalStatus.class);
 
         Mono<RentalStatus> output = userService.rent(rentalRequest);
@@ -110,7 +110,7 @@ public class MovieServiceTest {
         RentalsRecord record = new RentalsRecord(id, id, a, LocalDateTime.MIN, LocalDateTime.MAX);
 
         doReturn(record).when(mapper).map(rentalRequest, RentalsRecord.class);
-        doReturn(record).when(movieRepository).save(record);
+        doReturn(Mono.just(record)).when(movieRepository).save(record);
         doThrow(new RuntimeException()).when(mapper).map(record, RentalStatus.class);
 
         Mono<RentalStatus> output = userService.rent(rentalRequest);
@@ -132,7 +132,7 @@ public class MovieServiceTest {
         TerminationStatus status = new TerminationStatus();
 
         doReturn(record).when(mapper).map(terminationRequest, RentalsRecord.class);
-        doReturn(record).when(movieRepository).update(record);
+        doReturn(Mono.just(record)).when(movieRepository).update(record);
         doReturn(status).when(mapper).map(record, TerminationStatus.class);
 
         Mono<TerminationStatus> output = userService.terminate(terminationRequest);
@@ -188,7 +188,7 @@ public class MovieServiceTest {
         RentalsRecord record = new RentalsRecord(id, id, a, LocalDateTime.MIN, LocalDateTime.MAX);
 
         doReturn(record).when(mapper).map(terminationRequest, RentalsRecord.class);
-        doReturn(record).when(movieRepository).update(record);
+        doReturn(Mono.just(record)).when(movieRepository).update(record);
         doThrow(new RuntimeException()).when(mapper).map(record, TerminationStatus.class);
 
         Mono<TerminationStatus> output = userService.terminate(terminationRequest);

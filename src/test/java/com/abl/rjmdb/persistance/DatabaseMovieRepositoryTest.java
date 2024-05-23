@@ -1,36 +1,44 @@
 package com.abl.rjmdb.persistance;
 
-import com.abl.rjmdb.persistance.mock.DoNothingDataProvider;
 import com.abl.rjmdb.model.jooq.tables.records.RentalsRecord;
+import com.abl.rjmdb.model.jooq.tables.records.UsersRecord;
+import com.abl.rjmdb.persistance.mock.DoNothingDataProvider;
+import org.jooq.DSLContext;
 import org.jooq.impl.DSL;
 import org.jooq.tools.jdbc.MockConnection;
+import org.jooq.tools.jdbc.MockDataProvider;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import reactor.core.publisher.Mono;
+import reactor.test.StepVerifier;
 
 import java.time.LocalDateTime;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
 
 public class DatabaseMovieRepositoryTest {
 
-    private DatabaseMovieRepository movieRepository;
+    private DatabaseMovieRepository repository;
 
     @BeforeEach
     void setUp() {
-        movieRepository = new DatabaseMovieRepository(
-                        DSL.using(new MockConnection(new DoNothingDataProvider())));
+        MockDataProvider provider = new DoNothingDataProvider();
+        MockConnection connection = new MockConnection(provider);
+        DSLContext dsl = DSL.using(connection);
+        repository = new DatabaseMovieRepository(dsl);
     }
 
     @Test
     public void save_sanity_recordSavedMethodUsed() {
         RentalsRecord record = mock(RentalsRecord.class);
 
-        record = movieRepository.save(record);
+        Mono<RentalsRecord> output = repository.save(record);
 
-        assertNotNull(record);
+        StepVerifier.create(output)
+                .expectNextCount(1)
+                .verifyComplete();
 
-        verify(record).store();
+        verify(record).setId(-1L);
     }
 
     @Test
@@ -39,7 +47,11 @@ public class DatabaseMovieRepositoryTest {
 
         doReturn(LocalDateTime.MIN).when(record).getEndTime();
 
-        record = movieRepository.update(record);
+        Mono<RentalsRecord> output = repository.update(record);
+
+        StepVerifier.create(output)
+                .expectNextCount(1)
+                .verifyComplete();
 
         verify(record).getEndTime();
     }

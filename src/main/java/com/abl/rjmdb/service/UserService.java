@@ -10,6 +10,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
+import java.util.function.Function;
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -20,14 +22,14 @@ public class UserService {
 
     public Mono<User> signup(UserSignupInfo info) {
         return Mono.fromCallable(() -> modelMapper.map(info, UsersRecord.class))
-                .map(repository::save)
+                .doOnNext(repository::save)
                 .map(record -> modelMapper.map(record, User.class))
                 .doOnError(x -> log.error("User signup failed"));
     }
 
     public Mono<User> update(UserSignupInfo info) {
         return Mono.fromCallable(() -> modelMapper.map(info, UsersRecord.class))
-                .map(repository::update)
+                .doOnNext(repository::update)
                 .map(record -> modelMapper.map(record, User.class))
                 .doOnError(x -> log.error("User signup failed"));
     }
