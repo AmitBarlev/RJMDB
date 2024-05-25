@@ -1,12 +1,12 @@
 package com.abl.rjmdb.persistance;
 
-import com.abl.rjmdb.model.jooq.tables.records.UsersRecord;
+import com.abl.rjmdb.model.jooq.tables.records.ClientRecord;
 import reactor.core.publisher.Mono;
 
 public interface UserRepository {
 
-    Mono<UsersRecord> save(UsersRecord record);
+    Mono<ClientRecord> save(ClientRecord record);
 
-    Mono<UsersRecord> update(UsersRecord record);
+    Mono<ClientRecord> update(ClientRecord record);
 
 }

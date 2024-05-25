@@ -1,6 +1,6 @@
 package com.abl.rjmdb.persistance;
 
-import com.abl.rjmdb.model.jooq.tables.records.UsersRecord;
+import com.abl.rjmdb.model.jooq.tables.records.ClientRecord;
 import com.abl.rjmdb.persistance.mock.DoNothingDataProvider;
 import lombok.SneakyThrows;
 import org.jooq.DSLContext;
@@ -32,9 +32,9 @@ public class UserDatabaseRepositoryTest {
 
     @Test
     public void save_sanity_recordHasBeenStored() {
-        UsersRecord record = mock(UsersRecord.class);
+        ClientRecord record = mock(ClientRecord.class);
 
-        Mono<UsersRecord> output = repository.save(record);
+        Mono<ClientRecord> output = repository.save(record);
 
         StepVerifier.create(output)
                 .expectNextCount(1)
@@ -45,11 +45,11 @@ public class UserDatabaseRepositoryTest {
 
     @Test
     public void update_sanity_recordHasBeenStored() {
-        UsersRecord record = mock(UsersRecord.class);
+        ClientRecord record = mock(ClientRecord.class);
 
         doReturn(10L).when(record).getId();
 
-        Mono<UsersRecord> output = repository.update(record);
+        Mono<ClientRecord> output = repository.update(record);
 
         StepVerifier.create(output)
                 .expectNextCount(1)

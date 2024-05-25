@@ -1,13 +1,13 @@
 package com.abl.rjmdb.persistance;
 
-import com.abl.rjmdb.model.jooq.tables.records.RentalsRecord;
+import com.abl.rjmdb.model.jooq.tables.records.RentalRecord;
 import lombok.RequiredArgsConstructor;
 import org.jooq.DSLContext;
 import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import static com.abl.rjmdb.model.jooq.Tables.RENTALS;
+import static com.abl.rjmdb.model.jooq.Tables.RENTAL;
 
 @Repository
 @RequiredArgsConstructor
@@ -16,9 +16,9 @@ public class DatabaseMovieRepository implements MovieRepository {
     private final DSLContext dsl;
 
     @Override
-    public Mono<RentalsRecord> save(RentalsRecord record) {
-        return Flux.from(dsl.insertInto(RENTALS)
-                .columns(RENTALS.USER_ID, RENTALS.MOVIE_NAME, RENTALS.START_TIME)
+    public Mono<RentalRecord> save(RentalRecord record) {
+        return Flux.from(dsl.insertInto(RENTAL)
+                .columns(RENTAL.USER_ID, RENTAL.MOVIE_NAME, RENTAL.START_TIME)
                 .values(record.getUserId(), record.getMovieName(), record.getStartTime()))
                 .doOnNext(id -> record.setId((long)id))
                 .map(ignored -> record)
@@ -26,9 +26,9 @@ public class DatabaseMovieRepository implements MovieRepository {
     }
 
     @Override
-    public Mono<RentalsRecord> update(RentalsRecord record) {
-        return Flux.from(dsl.update(RENTALS)
-                        .set(RENTALS.END_TIME, record.getEndTime()))
+    public Mono<RentalRecord> update(RentalRecord record) {
+        return Flux.from(dsl.update(RENTAL)
+                        .set(RENTAL.END_TIME, record.getEndTime()))
                 .map(ignored -> record)
                 .single();
     }

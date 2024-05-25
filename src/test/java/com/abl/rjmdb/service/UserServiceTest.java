@@ -2,7 +2,7 @@ package com.abl.rjmdb.service;
 
 import com.abl.rjmdb.model.User;
 import com.abl.rjmdb.model.UserSignupInfo;
-import com.abl.rjmdb.model.jooq.tables.records.UsersRecord;
+import com.abl.rjmdb.model.jooq.tables.records.ClientRecord;
 import com.abl.rjmdb.persistance.UserRepository;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.AfterEach;
@@ -45,10 +45,10 @@ public class UserServiceTest {
         long id = 1L;
         String a = "a", b = "b", c = "c", d = "d";
         UserSignupInfo signupInfo = new UserSignupInfo(a, b, c, d, "e");
-        UsersRecord record = new UsersRecord(id, a, b, c);
+        ClientRecord record = new ClientRecord(id, a, b, c);
         User user = new User(id, a, b, c);
 
-        doReturn(record).when(mapper).map(signupInfo, UsersRecord.class);
+        doReturn(record).when(mapper).map(signupInfo, ClientRecord.class);
         doReturn(Mono.just(record)).when(userRepository).save(record);
         doReturn(user).when(mapper).map(record, User.class);
 
@@ -58,7 +58,7 @@ public class UserServiceTest {
                 .expectNextCount(1)
                 .verifyComplete();
 
-        verify(mapper).map(signupInfo, UsersRecord.class);
+        verify(mapper).map(signupInfo, ClientRecord.class);
         verify(userRepository).save(record);
         verify(mapper).map(record, User.class);
     }
@@ -68,14 +68,14 @@ public class UserServiceTest {
         String a = "a", b = "b", c = "c", d = "d";
         UserSignupInfo signupInfo = new UserSignupInfo(a, b, c, d, "e");
 
-        doThrow(new RuntimeException()).when(mapper).map(signupInfo, UsersRecord.class);
+        doThrow(new RuntimeException()).when(mapper).map(signupInfo, ClientRecord.class);
 
         Mono<User> output = userService.signup(signupInfo);
 
         StepVerifier.create(output)
                 .verifyError();
 
-        verify(mapper).map(signupInfo, UsersRecord.class);
+        verify(mapper).map(signupInfo, ClientRecord.class);
     }
 
     @Test
@@ -83,9 +83,9 @@ public class UserServiceTest {
         long id = 1L;
         String a = "a", b = "b", c = "c", d = "d";
         UserSignupInfo signupInfo = new UserSignupInfo(a, b, c, d, "e");
-        UsersRecord record = new UsersRecord(id, a, b, c);
+        ClientRecord record = new ClientRecord(id, a, b, c);
 
-        doReturn(record).when(mapper).map(signupInfo, UsersRecord.class);
+        doReturn(record).when(mapper).map(signupInfo, ClientRecord.class);
         doThrow(new RuntimeException()).when(userRepository).save(record);
 
         Mono<User> output = userService.signup(signupInfo);
@@ -93,7 +93,7 @@ public class UserServiceTest {
         StepVerifier.create(output)
                 .verifyError();
 
-        verify(mapper).map(signupInfo, UsersRecord.class);
+        verify(mapper).map(signupInfo, ClientRecord.class);
         verify(userRepository).save(record);
     }
 
@@ -102,9 +102,9 @@ public class UserServiceTest {
         long id = 1L;
         String a = "a", b = "b", c = "c", d = "d";
         UserSignupInfo signupInfo = new UserSignupInfo(a, b, c, d, "e");
-        UsersRecord record = new UsersRecord(id, a, b, c);
+        ClientRecord record = new ClientRecord(id, a, b, c);
 
-        doReturn(record).when(mapper).map(signupInfo, UsersRecord.class);
+        doReturn(record).when(mapper).map(signupInfo, ClientRecord.class);
         doReturn(Mono.just(record)).when(userRepository).save(record);
         doThrow(new RuntimeException()).when(mapper).map(record, User.class);
 
@@ -113,7 +113,7 @@ public class UserServiceTest {
         StepVerifier.create(output)
                 .verifyError();
 
-        verify(mapper).map(signupInfo, UsersRecord.class);
+        verify(mapper).map(signupInfo, ClientRecord.class);
         verify(userRepository).save(record);
         verify(mapper).map(record, User.class);
     }
@@ -123,10 +123,10 @@ public class UserServiceTest {
         long id = 1L;
         String a = "a", b = "b", c = "c", d = "d";
         UserSignupInfo signupInfo = new UserSignupInfo(a, b, c, d, "e");
-        UsersRecord record = new UsersRecord(id, a, b, c);
+        ClientRecord record = new ClientRecord(id, a, b, c);
         User user = new User(id, a, b, c);
 
-        doReturn(record).when(mapper).map(signupInfo, UsersRecord.class);
+        doReturn(record).when(mapper).map(signupInfo, ClientRecord.class);
         doReturn(Mono.just(record)).when(userRepository).update(record);
         doReturn(user).when(mapper).map(record, User.class);
 
@@ -136,7 +136,7 @@ public class UserServiceTest {
                 .expectNextCount(1)
                 .verifyComplete();
 
-        verify(mapper).map(signupInfo, UsersRecord.class);
+        verify(mapper).map(signupInfo, ClientRecord.class);
         verify(userRepository).update(record);
         verify(mapper).map(record, User.class);
     }
@@ -146,14 +146,14 @@ public class UserServiceTest {
         String a = "a", b = "b", c = "c", d = "d";
         UserSignupInfo signupInfo = new UserSignupInfo(a, b, c, d, "e");
 
-        doThrow(new RuntimeException()).when(mapper).map(signupInfo, UsersRecord.class);
+        doThrow(new RuntimeException()).when(mapper).map(signupInfo, ClientRecord.class);
 
         Mono<User> output = userService.update(signupInfo);
 
         StepVerifier.create(output)
                 .verifyError();
 
-        verify(mapper).map(signupInfo, UsersRecord.class);
+        verify(mapper).map(signupInfo, ClientRecord.class);
     }
 
     @Test
@@ -161,9 +161,9 @@ public class UserServiceTest {
         long id = 1L;
         String a = "a", b = "b", c = "c", d = "d";
         UserSignupInfo signupInfo = new UserSignupInfo(a, b, c, d, "e");
-        UsersRecord record = new UsersRecord(id, a, b, c);
+        ClientRecord record = new ClientRecord(id, a, b, c);
 
-        doReturn(record).when(mapper).map(signupInfo, UsersRecord.class);
+        doReturn(record).when(mapper).map(signupInfo, ClientRecord.class);
         doThrow(new RuntimeException()).when(userRepository).update(record);
 
         Mono<User> output = userService.update(signupInfo);
@@ -171,7 +171,7 @@ public class UserServiceTest {
         StepVerifier.create(output)
                 .verifyError();
 
-        verify(mapper).map(signupInfo, UsersRecord.class);
+        verify(mapper).map(signupInfo, ClientRecord.class);
         verify(userRepository).update(record);
     }
 
@@ -180,9 +180,9 @@ public class UserServiceTest {
         long id = 1L;
         String a = "a", b = "b", c = "c", d = "d";
         UserSignupInfo signupInfo = new UserSignupInfo(a, b, c, d, "e");
-        UsersRecord record = new UsersRecord(id, a, b, c);
+        ClientRecord record = new ClientRecord(id, a, b, c);
 
-        doReturn(record).when(mapper).map(signupInfo, UsersRecord.class);
+        doReturn(record).when(mapper).map(signupInfo, ClientRecord.class);
         doReturn(Mono.just(record)).when(userRepository).update(record);
         doThrow(new RuntimeException()).when(mapper).map(record, User.class);
 
@@ -191,7 +191,7 @@ public class UserServiceTest {
         StepVerifier.create(output)
                 .verifyError();
 
-        verify(mapper).map(signupInfo, UsersRecord.class);
+        verify(mapper).map(signupInfo, ClientRecord.class);
         verify(userRepository).update(record);
         verify(mapper).map(record, User.class);
     }

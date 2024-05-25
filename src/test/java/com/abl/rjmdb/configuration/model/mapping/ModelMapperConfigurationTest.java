@@ -4,8 +4,8 @@ import com.abl.rjmdb.model.RentalRequest;
 import com.abl.rjmdb.model.RentalStatus;
 import com.abl.rjmdb.model.User;
 import com.abl.rjmdb.model.UserSignupInfo;
-import com.abl.rjmdb.model.jooq.tables.records.RentalsRecord;
-import com.abl.rjmdb.model.jooq.tables.records.UsersRecord;
+import com.abl.rjmdb.model.jooq.tables.records.RentalRecord;
+import com.abl.rjmdb.model.jooq.tables.records.ClientRecord;
 import org.junit.jupiter.api.Test;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.NameTokenizers;
@@ -38,7 +38,7 @@ public class ModelMapperConfigurationTest {
 
         UserSignupInfo userSignupInfo = new UserSignupInfo("a", "b", "c", "d", "e");
 
-        UsersRecord record = mapper.map(userSignupInfo, UsersRecord.class);
+        ClientRecord record = mapper.map(userSignupInfo, ClientRecord.class);
 
         assertEquals(userSignupInfo.getFName(), record.getFirstName());
         assertEquals(userSignupInfo.getLName(), record.getLastName());
@@ -51,7 +51,7 @@ public class ModelMapperConfigurationTest {
 
         UserSignupInfo userSignupInfo = new UserSignupInfo();
 
-        UsersRecord record = mapper.map(userSignupInfo, UsersRecord.class);
+        ClientRecord record = mapper.map(userSignupInfo, ClientRecord.class);
 
         assertNull(record.getFirstName());
         assertNull(record.getLastName());
@@ -62,7 +62,7 @@ public class ModelMapperConfigurationTest {
     public void modelMapper_userRecordToUserSanity_identicalValues() {
         ModelMapper mapper = modelMapperConfiguration.modelMapper();
 
-        UsersRecord record = new UsersRecord(1L, "a", "b", "c");
+        ClientRecord record = new ClientRecord(1L, "a", "b", "c");
 
         User user = mapper.map(record, User.class);
 
@@ -78,7 +78,7 @@ public class ModelMapperConfigurationTest {
 
         RentalRequest request = new RentalRequest(1L, "a", LocalDateTime.MIN);
 
-        RentalsRecord record = mapper.map(request, RentalsRecord.class);
+        RentalRecord record = mapper.map(request, RentalRecord.class);
 
         assertEquals(request.getBy(), record.getId());
         assertEquals(request.getTitle(), record.getMovieName());
@@ -89,7 +89,7 @@ public class ModelMapperConfigurationTest {
     public void modelMapper_rentalRecordToRentalStatus_identicalValues() {
         ModelMapper mapper = modelMapperConfiguration.modelMapper();
 
-        RentalsRecord record = new RentalsRecord(1L, null, "a", LocalDateTime.MIN, LocalDateTime.MAX);
+        RentalRecord record = new RentalRecord(1L, null, "a", LocalDateTime.MIN, LocalDateTime.MAX);
 
         RentalStatus status = mapper.map(record, RentalStatus.class);
 

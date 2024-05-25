@@ -4,7 +4,7 @@ import com.abl.rjmdb.model.RentalRequest;
 import com.abl.rjmdb.model.RentalStatus;
 import com.abl.rjmdb.model.TerminationStatus;
 import com.abl.rjmdb.model.TerminationRequest;
-import com.abl.rjmdb.model.jooq.tables.records.RentalsRecord;
+import com.abl.rjmdb.model.jooq.tables.records.RentalRecord;
 import com.abl.rjmdb.persistance.MovieRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +24,7 @@ public class MovieService {
 
 
     public Mono<RentalStatus> rent(RentalRequest info) {
-        return Mono.fromCallable(() -> mapper.map(info, RentalsRecord.class))
+        return Mono.fromCallable(() -> mapper.map(info, RentalRecord.class))
                 .doOnNext(record -> record.setStartTime(LocalDateTime.now()))
                 .doOnNext(repository::save)
                 .map(record -> mapper.map(record, RentalStatus.class))
@@ -32,7 +32,7 @@ public class MovieService {
     }
 
     public Mono<TerminationStatus> terminate(TerminationRequest info) {
-        return Mono.fromCallable(() -> mapper.map(info, RentalsRecord.class))
+        return Mono.fromCallable(() -> mapper.map(info, RentalRecord.class))
                 .doOnNext(record -> record.setEndTime(LocalDateTime.now()))
                 .doOnNext(repository::update)
                 .map(record -> mapper.map(record, TerminationStatus.class))
