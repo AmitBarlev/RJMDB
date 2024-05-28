@@ -16,5 +16,4 @@ public class RentalRequest {
 
     private Long by;
     private String title;
-    private LocalDateTime time;
 }

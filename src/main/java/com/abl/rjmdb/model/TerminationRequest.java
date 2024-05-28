@@ -12,5 +12,5 @@ import java.time.LocalDateTime;
 public class TerminationRequest {
 
     private long id;
-    private LocalDateTime time;
+    private long userId;
 }

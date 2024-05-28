@@ -5,7 +5,7 @@ import reactor.core.publisher.Mono;
 
 public interface MovieRepository {
 
-    Mono<RentalRecord> save(RentalRecord record);
+    Mono<RentalRecord> rent(RentalRecord record);
 
-    Mono<RentalRecord> update(RentalRecord record);
+    Mono<RentalRecord> terminate(RentalRecord record);
 }

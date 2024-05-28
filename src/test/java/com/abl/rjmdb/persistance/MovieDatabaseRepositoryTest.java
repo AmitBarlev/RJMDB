@@ -1,7 +1,7 @@
 package com.abl.rjmdb.persistance;
 
 import com.abl.rjmdb.model.jooq.tables.records.RentalRecord;
-import com.abl.rjmdb.persistance.mock.DoNothingDataProvider;
+import com.abl.rjmdb.persistance.mock.MovieDatabaseRepositoryMockDataProvider;
 import org.jooq.DSLContext;
 import org.jooq.impl.DSL;
 import org.jooq.tools.jdbc.MockConnection;
@@ -15,29 +15,27 @@ import java.time.LocalDateTime;
 
 import static org.mockito.Mockito.*;
 
-public class DatabaseMovieRepositoryTest {
+public class MovieDatabaseRepositoryTest {
 
-    private DatabaseMovieRepository repository;
+    private MovieDatabaseRepository repository;
 
     @BeforeEach
     void setUp() {
-        MockDataProvider provider = new DoNothingDataProvider();
+        MockDataProvider provider = new MovieDatabaseRepositoryMockDataProvider();
         MockConnection connection = new MockConnection(provider);
         DSLContext dsl = DSL.using(connection);
-        repository = new DatabaseMovieRepository(dsl);
+        repository = new MovieDatabaseRepository(dsl);
     }
 
     @Test
     public void save_sanity_recordSavedMethodUsed() {
         RentalRecord record = mock(RentalRecord.class);
 
-        Mono<RentalRecord> output = repository.save(record);
+        Mono<RentalRecord> output = repository.rent(record);
 
         StepVerifier.create(output)
                 .expectNextCount(1)
                 .verifyComplete();
-
-        verify(record).setId(-1L);
     }
 
     @Test
@@ -46,7 +44,7 @@ public class DatabaseMovieRepositoryTest {
 
         doReturn(LocalDateTime.MIN).when(record).getEndTime();
 
-        Mono<RentalRecord> output = repository.update(record);
+        Mono<RentalRecord> output = repository.terminate(record);
 
         StepVerifier.create(output)
                 .expectNextCount(1)

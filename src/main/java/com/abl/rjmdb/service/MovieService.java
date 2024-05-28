@@ -24,18 +24,18 @@ public class MovieService {
 
 
     public Mono<RentalStatus> rent(RentalRequest info) {
-        return Mono.fromCallable(() -> mapper.map(info, RentalRecord.class))
-                .doOnNext(record -> record.setStartTime(LocalDateTime.now()))
-                .doOnNext(repository::save)
-                .map(record -> mapper.map(record, RentalStatus.class))
-                .doOnError(x -> log.error("Movie rental failed"));
+        RentalRecord record = mapper.map(info, RentalRecord.class);
+        record.setStartTime(LocalDateTime.now());
+        return repository.rent(record)
+                .map(savedRecord -> mapper.map(savedRecord, RentalStatus.class))
+                .doOnError(error -> log.error("Movie rental failed", error));
     }
 
     public Mono<TerminationStatus> terminate(TerminationRequest info) {
-        return Mono.fromCallable(() -> mapper.map(info, RentalRecord.class))
-                .doOnNext(record -> record.setEndTime(LocalDateTime.now()))
-                .doOnNext(repository::update)
-                .map(record -> mapper.map(record, TerminationStatus.class))
+        RentalRecord record = mapper.map(info, RentalRecord.class);
+        record.setEndTime(LocalDateTime.now());
+        return repository.terminate(record)
+                .map(savedRecord -> mapper.map(savedRecord, TerminationStatus.class))
                 .doOnError(x -> log.error("Cannot return movie"));
     }
 }

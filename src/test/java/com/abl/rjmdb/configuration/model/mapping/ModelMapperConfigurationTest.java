@@ -36,7 +36,7 @@ public class ModelMapperConfigurationTest {
     public void modelMapper_userSignupInfoToUserRecordSanity_identicalValues() {
         ModelMapper mapper = modelMapperConfiguration.modelMapper();
 
-        UserSignupInfo userSignupInfo = new UserSignupInfo("a", "b", "c", "d", "e");
+        UserSignupInfo userSignupInfo = new UserSignupInfo(1, "a", "b", "c", "d", "e");
 
         ClientRecord record = mapper.map(userSignupInfo, ClientRecord.class);
 
@@ -76,13 +76,12 @@ public class ModelMapperConfigurationTest {
     public void modelMapper_rentalRequestToRentalRecordSanity_identicalValues() {
         ModelMapper mapper = modelMapperConfiguration.modelMapper();
 
-        RentalRequest request = new RentalRequest(1L, "a", LocalDateTime.MIN);
+        RentalRequest request = new RentalRequest(1L, "a");
 
         RentalRecord record = mapper.map(request, RentalRecord.class);
 
-        assertEquals(request.getBy(), record.getId());
+        assertEquals(request.getBy(), record.getUserId());
         assertEquals(request.getTitle(), record.getMovieName());
-        assertEquals(request.getTime(), record.getStartTime());
     }
 
     @Test

@@ -19,12 +19,13 @@ import reactor.test.StepVerifier;
 
 import java.time.LocalDateTime;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 public class MovieServiceTest {
 
     @InjectMocks
-    private MovieService userService;
+    private MovieService movieService;
 
     @Mock
     private ModelMapper mapper;
@@ -48,22 +49,22 @@ public class MovieServiceTest {
     public void rent_sanity_savedSuccessfully() {
         long id = 1L;
         String a = "a";
-        RentalRequest rentalRequest = new RentalRequest(id, a, LocalDateTime.MIN);
+        RentalRequest rentalRequest = new RentalRequest(id, a);
         RentalRecord record = new RentalRecord(id, id, a, LocalDateTime.MIN, LocalDateTime.MAX);
         RentalStatus status = new RentalStatus(id, a, LocalDateTime.MIN);
 
         doReturn(record).when(mapper).map(rentalRequest, RentalRecord.class);
-        doReturn(Mono.just(record)).when(movieRepository).save(record);
+        doReturn(Mono.just(record)).when(movieRepository).rent(record);
         doReturn(status).when(mapper).map(record, RentalStatus.class);
 
-        Mono<RentalStatus> output = userService.rent(rentalRequest);
+        Mono<RentalStatus> output = movieService.rent(rentalRequest);
 
         StepVerifier.create(output)
                 .expectNextCount(1)
                 .verifyComplete();
 
         verify(mapper).map(rentalRequest, RentalRecord.class);
-        verify(movieRepository).save(record);
+        verify(movieRepository).rent(record);
         verify(mapper).map(record, RentalStatus.class);
     }
 
@@ -71,14 +72,11 @@ public class MovieServiceTest {
     public void rent_mappingToRecordFailed_monoExpectsError() {
         long id = 1L;
         String a = "a";
-        RentalRequest rentalRequest = new RentalRequest(id, a, LocalDateTime.MIN);
+        RentalRequest rentalRequest = new RentalRequest(id, a);
 
         doThrow(new RuntimeException()).when(mapper).map(rentalRequest, RentalRecord.class);
 
-        Mono<RentalStatus> output = userService.rent(rentalRequest);
-
-        StepVerifier.create(output)
-                .verifyError();
+        assertThrows(RuntimeException.class, () -> movieService.rent(rentalRequest));
 
         verify(mapper).map(rentalRequest, RentalRecord.class);
     }
@@ -87,76 +85,73 @@ public class MovieServiceTest {
     public void rent_savingToDbFailed_monoExpectsError() {
         long id = 1L;
         String a = "a";
-        RentalRequest rentalRequest = new RentalRequest(id, a, LocalDateTime.MIN);
+        RentalRequest rentalRequest = new RentalRequest(id, a);
         RentalRecord record = new RentalRecord(id, id, a, LocalDateTime.MIN, LocalDateTime.MAX);
 
         doReturn(record).when(mapper).map(rentalRequest, RentalRecord.class);
-        doThrow(new RuntimeException()).when(movieRepository).save(record);
+        doThrow(new RuntimeException()).when(movieRepository).rent(record);
 
-        Mono<RentalStatus> output = userService.rent(rentalRequest);
-
-        StepVerifier.create(output)
-                .verifyError();
+        assertThrows(RuntimeException.class, () -> movieService.rent(rentalRequest));
 
         verify(mapper).map(rentalRequest, RentalRecord.class);
-        verify(movieRepository).save(record);
+        verify(movieRepository).rent(record);
     }
 
     @Test
     public void rent_mappingToRentalStatusFailed_monoExpectsError() {
         long id = 1L;
         String a = "a";
-        RentalRequest rentalRequest = new RentalRequest(id, a, LocalDateTime.MIN);
+        RentalRequest rentalRequest = new RentalRequest(id, a);
         RentalRecord record = new RentalRecord(id, id, a, LocalDateTime.MIN, LocalDateTime.MAX);
 
         doReturn(record).when(mapper).map(rentalRequest, RentalRecord.class);
-        doReturn(Mono.just(record)).when(movieRepository).save(record);
+        doReturn(Mono.just(record)).when(movieRepository).rent(record);
         doThrow(new RuntimeException()).when(mapper).map(record, RentalStatus.class);
 
-        Mono<RentalStatus> output = userService.rent(rentalRequest);
+        Mono<RentalStatus> output = movieService.rent(rentalRequest);
 
         StepVerifier.create(output)
                 .verifyError();
 
         verify(mapper).map(rentalRequest, RentalRecord.class);
-        verify(movieRepository).save(record);
+        verify(movieRepository).rent(record);
         verify(mapper).map(record, RentalStatus.class);
     }
 
     @Test
     public void terminate_sanity_savedSuccessfully() {
         long id = 1L;
+        long userId = 2L;
         String a = "a";
-        TerminationRequest terminationRequest = new TerminationRequest(id, LocalDateTime.MIN);
-        RentalRecord record = new RentalRecord(id, id, a, LocalDateTime.MIN, LocalDateTime.MAX);
+        TerminationRequest terminationRequest = new TerminationRequest(id, userId);
+        RentalRecord record = new RentalRecord(id, userId, a, LocalDateTime.MIN, LocalDateTime.MAX);
         TerminationStatus status = new TerminationStatus();
 
         doReturn(record).when(mapper).map(terminationRequest, RentalRecord.class);
-        doReturn(Mono.just(record)).when(movieRepository).update(record);
+        doReturn(Mono.just(record)).when(movieRepository).terminate(record);
         doReturn(status).when(mapper).map(record, TerminationStatus.class);
 
-        Mono<TerminationStatus> output = userService.terminate(terminationRequest);
+        Mono<TerminationStatus> output = movieService.terminate(terminationRequest);
 
         StepVerifier.create(output)
                 .expectNextCount(1)
                 .verifyComplete();
 
         verify(mapper).map(terminationRequest, RentalRecord.class);
-        verify(movieRepository).update(record);
+        verify(movieRepository).terminate(record);
         verify(mapper).map(record, TerminationStatus.class);
     }
 
     @Test
     public void terminate_mappingToRecordFailed_monoExpectsError() {
         long id = 1L;
-        TerminationRequest terminationRequest = new TerminationRequest(id, LocalDateTime.MIN);
+        long userId = 2L;
+
+        TerminationRequest terminationRequest = new TerminationRequest(id, userId);
 
         doThrow(new RuntimeException()).when(mapper).map(terminationRequest, RentalRecord.class);
 
-        Mono<TerminationStatus> output = userService.terminate(terminationRequest);
-
-        StepVerifier.create(output)
-                .verifyError();
+        assertThrows(RuntimeException.class, () -> movieService.terminate(terminationRequest));
 
         verify(mapper).map(terminationRequest, RentalRecord.class);
     }
@@ -164,40 +159,39 @@ public class MovieServiceTest {
     @Test
     public void terminate_updateToDbFailed_monoExpectsError() {
         long id = 1L;
+        long userId = 2L;
         String a = "a";
-        TerminationRequest terminationRequest = new TerminationRequest(id, LocalDateTime.MIN);
+        TerminationRequest terminationRequest = new TerminationRequest(id, userId);
         RentalRecord record = new RentalRecord(id, id, a, LocalDateTime.MIN, LocalDateTime.MAX);
 
         doReturn(record).when(mapper).map(terminationRequest, RentalRecord.class);
-        doThrow(new RuntimeException()).when(movieRepository).update(record);
+        doThrow(new RuntimeException()).when(movieRepository).terminate(record);
 
-        Mono<TerminationStatus> output = userService.terminate(terminationRequest);
-
-        StepVerifier.create(output)
-                .verifyError();
+        assertThrows(RuntimeException.class, () -> movieService.terminate(terminationRequest));
 
         verify(mapper).map(terminationRequest, RentalRecord.class);
-        verify(movieRepository).update(record);
+        verify(movieRepository).terminate(record);
     }
 
     @Test
     public void terminate_mappingToTerminationStatusFailed_monoExpectsError() {
         long id = 1L;
+        long userId = 2L;
         String a = "a";
-        TerminationRequest terminationRequest = new TerminationRequest(id, LocalDateTime.MIN);
+        TerminationRequest terminationRequest = new TerminationRequest(id, userId);
         RentalRecord record = new RentalRecord(id, id, a, LocalDateTime.MIN, LocalDateTime.MAX);
 
         doReturn(record).when(mapper).map(terminationRequest, RentalRecord.class);
-        doReturn(Mono.just(record)).when(movieRepository).update(record);
+        doReturn(Mono.just(record)).when(movieRepository).terminate(record);
         doThrow(new RuntimeException()).when(mapper).map(record, TerminationStatus.class);
 
-        Mono<TerminationStatus> output = userService.terminate(terminationRequest);
+        Mono<TerminationStatus> output = movieService.terminate(terminationRequest);
 
         StepVerifier.create(output)
                 .verifyError();
 
         verify(mapper).map(terminationRequest, RentalRecord.class);
-        verify(movieRepository).update(record);
+        verify(movieRepository).terminate(record);
         verify(mapper).map(record, TerminationStatus.class);
     }
 }

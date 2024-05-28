@@ -1,18 +1,13 @@
 package com.abl.rjmdb.persistance;
 
 import com.abl.rjmdb.model.jooq.tables.records.ClientRecord;
-import com.abl.rjmdb.persistance.mock.DoNothingDataProvider;
-import lombok.SneakyThrows;
+import com.abl.rjmdb.persistance.mock.UserDatabaseRepositoryMockDataProvider;
 import org.jooq.DSLContext;
 import org.jooq.impl.DSL;
 import org.jooq.tools.jdbc.MockConnection;
 import org.jooq.tools.jdbc.MockDataProvider;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
@@ -20,14 +15,14 @@ import static org.mockito.Mockito.*;
 
 public class UserDatabaseRepositoryTest {
 
-    private DatabaseUserRepository repository;
+    private UserDatabaseRepository repository;
 
     @BeforeEach
     void setUp() {
-        MockDataProvider provider = new DoNothingDataProvider();
+        MockDataProvider provider = new UserDatabaseRepositoryMockDataProvider();
         MockConnection connection = new MockConnection(provider);
         DSLContext dsl = DSL.using(connection);
-        repository = new DatabaseUserRepository(dsl);
+        repository = new UserDatabaseRepository(dsl);
     }
 
     @Test
@@ -39,8 +34,6 @@ public class UserDatabaseRepositoryTest {
         StepVerifier.create(output)
                 .expectNextCount(1)
                 .verifyComplete();
-
-        verify(record).setId(-1L);
     }
 
     @Test

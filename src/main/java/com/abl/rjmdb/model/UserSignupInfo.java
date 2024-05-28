@@ -8,6 +8,7 @@ import lombok.*;
 @AllArgsConstructor
 public class UserSignupInfo {
 
+    private long id;
     private String fName;
     private String lName;
     private String country;

@@ -21,15 +21,13 @@ public class UserService {
     private final UserRepository repository;
 
     public Mono<User> signup(UserSignupInfo info) {
-        return Mono.fromCallable(() -> modelMapper.map(info, ClientRecord.class))
-                .doOnNext(repository::save)
+        return repository.save(modelMapper.map(info, ClientRecord.class))
                 .map(record -> modelMapper.map(record, User.class))
                 .doOnError(x -> log.error("User signup failed"));
     }
 
     public Mono<User> update(UserSignupInfo info) {
-        return Mono.fromCallable(() -> modelMapper.map(info, ClientRecord.class))
-                .doOnNext(repository::update)
+        return repository.update(modelMapper.map(info, ClientRecord.class))
                 .map(record -> modelMapper.map(record, User.class))
                 .doOnError(x -> log.error("User signup failed"));
     }

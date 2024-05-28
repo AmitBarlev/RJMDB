@@ -48,9 +48,8 @@ public class ModelMapperConfiguration {
 
     private void rentalRequestInfoToRentalRecord(ModelMapper mapper) {
         mapper.createTypeMap(RentalRequest.class, RentalRecord.class)
-                .addMapping(RentalRequest::getBy, RentalRecord::setId)
-                .addMapping(RentalRequest::getTitle, RentalRecord::setMovieName)
-                .addMapping(RentalRequest::getTime, RentalRecord::setStartTime);
+                .addMapping(RentalRequest::getBy, RentalRecord::setUserId)
+                .addMapping(RentalRequest::getTitle, RentalRecord::setMovieName);
     }
 
     private void RentalRecordToRentalStatus(ModelMapper mapper) {

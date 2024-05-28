@@ -15,6 +15,7 @@ import org.modelmapper.ModelMapper;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 public class UserServiceTest {
@@ -44,7 +45,7 @@ public class UserServiceTest {
     public void signup_sanity_savedSuccessfully() {
         long id = 1L;
         String a = "a", b = "b", c = "c", d = "d";
-        UserSignupInfo signupInfo = new UserSignupInfo(a, b, c, d, "e");
+        UserSignupInfo signupInfo = new UserSignupInfo(1, a, b, c, d, "e");
         ClientRecord record = new ClientRecord(id, a, b, c);
         User user = new User(id, a, b, c);
 
@@ -66,14 +67,11 @@ public class UserServiceTest {
     @Test
     public void signup_mappingToRecordFailed_monoExpectError() {
         String a = "a", b = "b", c = "c", d = "d";
-        UserSignupInfo signupInfo = new UserSignupInfo(a, b, c, d, "e");
+        UserSignupInfo signupInfo = new UserSignupInfo(1, a, b, c, d, "e");
 
         doThrow(new RuntimeException()).when(mapper).map(signupInfo, ClientRecord.class);
 
-        Mono<User> output = userService.signup(signupInfo);
-
-        StepVerifier.create(output)
-                .verifyError();
+        assertThrows(RuntimeException.class, () -> userService.signup(signupInfo));
 
         verify(mapper).map(signupInfo, ClientRecord.class);
     }
@@ -82,16 +80,13 @@ public class UserServiceTest {
     public void signup_savingToDbFailed_monoExpectError() {
         long id = 1L;
         String a = "a", b = "b", c = "c", d = "d";
-        UserSignupInfo signupInfo = new UserSignupInfo(a, b, c, d, "e");
+        UserSignupInfo signupInfo = new UserSignupInfo(1, a, b, c, d, "e");
         ClientRecord record = new ClientRecord(id, a, b, c);
 
         doReturn(record).when(mapper).map(signupInfo, ClientRecord.class);
         doThrow(new RuntimeException()).when(userRepository).save(record);
 
-        Mono<User> output = userService.signup(signupInfo);
-
-        StepVerifier.create(output)
-                .verifyError();
+        assertThrows(RuntimeException.class, () -> userService.signup(signupInfo));
 
         verify(mapper).map(signupInfo, ClientRecord.class);
         verify(userRepository).save(record);
@@ -101,7 +96,7 @@ public class UserServiceTest {
     public void signup_mappingToUserFailed_monoExpectError() {
         long id = 1L;
         String a = "a", b = "b", c = "c", d = "d";
-        UserSignupInfo signupInfo = new UserSignupInfo(a, b, c, d, "e");
+        UserSignupInfo signupInfo = new UserSignupInfo(1, a, b, c, d, "e");
         ClientRecord record = new ClientRecord(id, a, b, c);
 
         doReturn(record).when(mapper).map(signupInfo, ClientRecord.class);
@@ -122,7 +117,7 @@ public class UserServiceTest {
     public void update_sanity_savedSuccessfully() {
         long id = 1L;
         String a = "a", b = "b", c = "c", d = "d";
-        UserSignupInfo signupInfo = new UserSignupInfo(a, b, c, d, "e");
+        UserSignupInfo signupInfo = new UserSignupInfo(1, a, b, c, d, "e");
         ClientRecord record = new ClientRecord(id, a, b, c);
         User user = new User(id, a, b, c);
 
@@ -144,14 +139,11 @@ public class UserServiceTest {
     @Test
     public void update_mappingToRecordFailed_monoExpectError() {
         String a = "a", b = "b", c = "c", d = "d";
-        UserSignupInfo signupInfo = new UserSignupInfo(a, b, c, d, "e");
+        UserSignupInfo signupInfo = new UserSignupInfo(1, a, b, c, d, "e");
 
         doThrow(new RuntimeException()).when(mapper).map(signupInfo, ClientRecord.class);
 
-        Mono<User> output = userService.update(signupInfo);
-
-        StepVerifier.create(output)
-                .verifyError();
+        assertThrows(RuntimeException.class, () -> userService.update(signupInfo));
 
         verify(mapper).map(signupInfo, ClientRecord.class);
     }
@@ -160,16 +152,13 @@ public class UserServiceTest {
     public void update_savingToDbFailed_monoExpectError() {
         long id = 1L;
         String a = "a", b = "b", c = "c", d = "d";
-        UserSignupInfo signupInfo = new UserSignupInfo(a, b, c, d, "e");
+        UserSignupInfo signupInfo = new UserSignupInfo(1, a, b, c, d, "e");
         ClientRecord record = new ClientRecord(id, a, b, c);
 
         doReturn(record).when(mapper).map(signupInfo, ClientRecord.class);
         doThrow(new RuntimeException()).when(userRepository).update(record);
 
-        Mono<User> output = userService.update(signupInfo);
-
-        StepVerifier.create(output)
-                .verifyError();
+        assertThrows(RuntimeException.class, () -> userService.update(signupInfo));
 
         verify(mapper).map(signupInfo, ClientRecord.class);
         verify(userRepository).update(record);
@@ -179,7 +168,7 @@ public class UserServiceTest {
     public void update_mappingToUserFailed_monoExpectError() {
         long id = 1L;
         String a = "a", b = "b", c = "c", d = "d";
-        UserSignupInfo signupInfo = new UserSignupInfo(a, b, c, d, "e");
+        UserSignupInfo signupInfo = new UserSignupInfo(1, a, b, c, d, "e");
         ClientRecord record = new ClientRecord(id, a, b, c);
 
         doReturn(record).when(mapper).map(signupInfo, ClientRecord.class);
