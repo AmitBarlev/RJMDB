@@ -1,5 +1,9 @@
 # spring.profiles.active=local in Environment Variables in order to run
 
+spring:
+  config:
+    import: "configserver:http://localhost:8888"
+
 persistence:
   database:
     driver: "postgresql"
