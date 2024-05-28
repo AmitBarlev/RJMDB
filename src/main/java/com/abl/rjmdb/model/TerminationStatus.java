@@ -1,9 +1,18 @@
 package com.abl.rjmdb.model;
 
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
+
+import java.time.LocalDateTime;
 
 @Data
-@RequiredArgsConstructor
+@Generated
+@NoArgsConstructor
+@AllArgsConstructor
 public class TerminationStatus {
+
+    private long id;
+    private long by;
+    private LocalDateTime start;
+    private LocalDateTime end;
+    private String movieName;
 }

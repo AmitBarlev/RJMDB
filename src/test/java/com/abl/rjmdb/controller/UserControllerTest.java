@@ -1,4 +1,4 @@
-package com.abl.rjmdb;
+package com.abl.rjmdb.controller;
 
 import com.abl.rjmdb.controller.UserController;
 import com.abl.rjmdb.model.User;
@@ -52,5 +52,21 @@ public class UserControllerTest {
                 .verifyComplete();
 
         verify(userService).signup(signupInfo);
+    }
+
+    @Test
+    public void update_sanity_monoWithValue()  {
+        UserSignupInfo signupInfo = new UserSignupInfo();
+        User user = new User();
+
+        doReturn(Mono.just(user)).when(userService).update(signupInfo);
+
+        Mono<User> output = userController.update(signupInfo);
+
+        StepVerifier.create(output)
+                .expectNextCount(1)
+                .verifyComplete();
+
+        verify(userService).update(signupInfo);
     }
 }

@@ -21,4 +21,9 @@ public class UserController {
         return userService.signup(info);
     }
 
+    @PostMapping(value = "update")
+    public Mono<User> update(UserSignupInfo info) {
+        return userService.update(info);
+    }
+
 }

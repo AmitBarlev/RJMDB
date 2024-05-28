@@ -1,9 +1,16 @@
 package com.abl.rjmdb.model;
 
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
+
+import java.time.LocalDateTime;
 
 @Data
-@RequiredArgsConstructor
+@Generated
+@NoArgsConstructor
+@AllArgsConstructor
 public class RentalStatus {
+
+    private long id;
+    private String movieName;
+    private LocalDateTime time;
 }

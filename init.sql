@@ -1,15 +1,15 @@
-CREATE TABLE users (
+CREATE TABLE client (
     id BIGSERIAL PRIMARY  KEY,
-    firstName TEXT NOT NULL,
-    lastName TEXT NOT NULL,
+    first_name TEXT NOT NULL,
+    last_name TEXT NOT NULL,
     address TEXT NOT NULL
 );
 
-CREATE TABLE rentals (
+CREATE TABLE rental (
     id BIGSERIAL PRIMARY KEY,
-    userId BIGSERIAL NOT NULL,
-    CONSTRAINT fkUserId FOREIGN KEY (userId) REFERENCES users(id),
-    movieName TEXT NOT NULL,
-    startTime TIMESTAMP NOT NULL,
-    endTime TIMESTAMP DEFAULT NULL
+    user_id BIGSERIAL NOT NULL,
+    CONSTRAINT fk_user_id FOREIGN KEY (user_id) REFERENCES client(id),
+    movie_name TEXT NOT NULL,
+    start_time TIMESTAMP NOT NULL,
+    end_time TIMESTAMP DEFAULT NULL
 );

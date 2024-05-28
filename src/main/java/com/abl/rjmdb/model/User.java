@@ -1,9 +1,15 @@
 package com.abl.rjmdb.model;
 
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 @Data
-@RequiredArgsConstructor
+@Generated
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
+
+    private Long id;
+    private String firstName;
+    private String lastName;
+    private String address;
 }
