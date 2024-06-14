@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/changelog-ext"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd
+        http://www.liquibase.org/xml/ns/changelog-ext changelog-ext.xsd">
+
+    <changeSet id="e" author="1">
+        <ext:deleteUserChange/>
+    </changeSet>
+
+    <changeSet id="e2" author="131">
+        <ext:protect userId="11"/>
+    </changeSet>
+
+</databaseChangeLog>
