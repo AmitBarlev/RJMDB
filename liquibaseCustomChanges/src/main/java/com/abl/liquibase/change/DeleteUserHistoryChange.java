@@ -2,21 +2,23 @@ package com.abl.liquibase.change;
 
 import com.abl.liquibase.statement.DeleteUserRentalStatement;
 import com.abl.liquibase.statement.DeleteUserStatement;
+import liquibase.change.AbstractChange;
 import liquibase.change.ChangeMetaData;
 import liquibase.change.DatabaseChange;
-import liquibase.change.custom.CustomSqlChange;
+import liquibase.change.DatabaseChangeProperty;
 import liquibase.database.Database;
 import liquibase.exception.ValidationErrors;
-import liquibase.resource.ResourceAccessor;
 import liquibase.statement.SqlStatement;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
-@DatabaseChange(name = "protect", description = "", priority = ChangeMetaData.PRIORITY_DEFAULT)
-public class DeleteUserHistoryChange implements CustomSqlChange {
+@EqualsAndHashCode(callSuper = true)
+@DatabaseChange(name = "deleteUserChange", description = "", priority = ChangeMetaData.PRIORITY_DEFAULT)
+public class DeleteUserHistoryChange extends AbstractChange {
+
 
     private long userId;
-    private ResourceAccessor resourceAccessor;
 
     @Override
     public SqlStatement[] generateStatements(Database database) {
@@ -28,17 +30,7 @@ public class DeleteUserHistoryChange implements CustomSqlChange {
 
     @Override
     public String getConfirmationMessage() {
-        return "User completely erased";
-    }
-
-    @Override
-    public void setUp() {
-
-    }
-
-    @Override
-    public void setFileOpener(ResourceAccessor resourceAccessor) {
-        this.resourceAccessor = resourceAccessor;
+        return "Suck Mah Balls";
     }
 
     @Override

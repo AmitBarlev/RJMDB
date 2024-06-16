@@ -12,6 +12,6 @@ public class DeleteUserRentalStatement extends DeleteStatement {
         super(catalogName, schemaName, tableName);
         this.userId = userId;
 
-        setWhere(String.format("%s = %s", "userId", userId)); //replace with JOOQ
+        setWhere(String.format("%s = %s", "rental.user_id", userId)); //replace with JOOQ
     }
 }
