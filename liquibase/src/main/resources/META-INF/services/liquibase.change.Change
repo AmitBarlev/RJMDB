@@ -1,1 +1,1 @@
-com.abl.liquibase.change.DeleteUserHistoryChange
+com.abl.rjmdb.liquibase.change.DeleteUserHistoryChange

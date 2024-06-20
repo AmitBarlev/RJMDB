@@ -4,14 +4,8 @@
                    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.4.xsd http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
-    <changeSet id="23311211e" author="314121">
-        <ext:deleteUserData userId="11"/>
+    <changeSet id="1" author="amitbl">
+        <ext:deleteUserData userId="2"/>
     </changeSet>
-
-    <changeSet id="2331121321e" author="314121">
-        <ext:deleteUserData userId="11"/>
-    </changeSet>
-
-
 
 </databaseChangeLog>
