@@ -21,6 +21,6 @@ public class DeleteUserStatementTest {
 
     @Test
     public void getWhere_sanity_expectedValue() {
-        assertEquals("id = 37", statement.getWhere());
+        assertEquals("client.id = 37", statement.getWhere());
     }
 }

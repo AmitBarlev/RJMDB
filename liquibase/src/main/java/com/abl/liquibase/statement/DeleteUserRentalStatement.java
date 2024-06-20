@@ -3,6 +3,9 @@ package com.abl.liquibase.statement;
 import liquibase.statement.core.DeleteStatement;
 import lombok.Getter;
 
+import static com.abl.rjmdb.model.jooq.Tables.RENTAL;
+
+
 @Getter
 public class DeleteUserRentalStatement extends DeleteStatement {
 
@@ -12,6 +15,6 @@ public class DeleteUserRentalStatement extends DeleteStatement {
         super(catalogName, schemaName, tableName);
         this.userId = userId;
 
-        setWhere(String.format("%s = %s", "rental.user_id", userId)); //replace with JOOQ
+        setWhere(String.format("%s = %s", RENTAL.USER_ID.getQualifiedName().unquotedName(), userId));
     }
 }
