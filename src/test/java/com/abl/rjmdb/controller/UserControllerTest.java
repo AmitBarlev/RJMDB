@@ -1,9 +1,8 @@
 package com.abl.rjmdb.controller;
 
-import com.abl.rjmdb.controller.UserController;
 import com.abl.rjmdb.model.User;
-import com.abl.rjmdb.model.UserSignupInfo;
 import com.abl.rjmdb.service.UserService;
+import com.abl.rjmdb.model.UserSignupInfo;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

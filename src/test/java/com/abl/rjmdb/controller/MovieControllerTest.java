@@ -1,6 +1,5 @@
 package com.abl.rjmdb.controller;
 
-import com.abl.rjmdb.controller.MovieController;
 import com.abl.rjmdb.model.RentalRequest;
 import com.abl.rjmdb.model.RentalStatus;
 import com.abl.rjmdb.model.TerminationRequest;

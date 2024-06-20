@@ -2,15 +2,13 @@ package com.abl.rjmdb.service;
 
 import com.abl.rjmdb.model.User;
 import com.abl.rjmdb.model.UserSignupInfo;
-import com.abl.rjmdb.model.jooq.tables.records.ClientRecord;
 import com.abl.rjmdb.persistance.UserRepository;
+import com.abl.rjmdb.model.jooq.tables.records.ClientRecord;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
-
-import java.util.function.Function;
 
 @Service
 @Slf4j

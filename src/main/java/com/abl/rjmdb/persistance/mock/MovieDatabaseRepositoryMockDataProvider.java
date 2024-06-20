@@ -1,6 +1,6 @@
 package com.abl.rjmdb.persistance.mock;
 
-import com.abl.rjmdb.model.jooq.tables.records.ClientRecord;
+import com.abl.rjmdb.model.jooq.tables.Rental;
 import com.abl.rjmdb.model.jooq.tables.records.RentalRecord;
 import lombok.Generated;
 import org.jooq.DSLContext;
@@ -11,9 +11,6 @@ import org.jooq.tools.jdbc.MockDataProvider;
 import org.jooq.tools.jdbc.MockExecuteContext;
 import org.jooq.tools.jdbc.MockResult;
 
-import static com.abl.rjmdb.model.jooq.tables.Client.CLIENT;
-import static com.abl.rjmdb.model.jooq.tables.Rental.RENTAL;
-
 @Generated
 public class MovieDatabaseRepositoryMockDataProvider implements MockDataProvider {
 
@@ -21,8 +18,8 @@ public class MovieDatabaseRepositoryMockDataProvider implements MockDataProvider
     public MockResult[] execute(MockExecuteContext mockExecuteContext) {
         DSLContext dsl = DSL.using(SQLDialect.POSTGRES);
 
-        Result<RentalRecord> result = dsl.newResult(RENTAL);
-        result.add(dsl.newRecord(RENTAL));
+        Result<RentalRecord> result = dsl.newResult(Rental.RENTAL);
+        result.add(dsl.newRecord(Rental.RENTAL));
 
         return new MockResult[] {
                 new MockResult(1, result)

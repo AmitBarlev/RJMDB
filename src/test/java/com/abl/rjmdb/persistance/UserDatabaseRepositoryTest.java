@@ -1,7 +1,8 @@
 package com.abl.rjmdb.persistance;
 
-import com.abl.rjmdb.model.jooq.tables.records.ClientRecord;
 import com.abl.rjmdb.persistance.mock.UserDatabaseRepositoryMockDataProvider;
+import com.abl.rjmdb.model.jooq.tables.records.ClientRecord;
+
 import org.jooq.DSLContext;
 import org.jooq.impl.DSL;
 import org.jooq.tools.jdbc.MockConnection;

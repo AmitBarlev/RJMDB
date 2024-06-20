@@ -17,11 +17,15 @@
 	<properties>
 		<java.version>17</java.version>
 		<jooq.version>3.19.8</jooq.version>
-		<r2dbc-postgresql.version>1.0.5.RELEASE</r2dbc-postgresql.version>
 		<postgresql.version>42.7.3</postgresql.version>
+		<r2dbc-postgresql.version>1.0.5.RELEASE</r2dbc-postgresql.version>
 		<modelmapper-jooq.version>3.2.0</modelmapper-jooq.version>
 		<springdoc-openapi-starter-webflux-ui.version>2.4.0</springdoc-openapi-starter-webflux-ui.version>
 		<spring-cloud-config-client.version>4.1.1</spring-cloud-config-client.version>
+		<jooq-meta-extensions-liquibase.version>3.19.9</jooq-meta-extensions-liquibase.version>
+		<liquibase-maven-plugin.version>4.28.0</liquibase-maven-plugin.version>
+		<maven-compiler-plugin.target>17</maven-compiler-plugin.target>
+		<maven-compiler-plugin.source>17</maven-compiler-plugin.source>
 	</properties>
 
 	<dependencies>
@@ -32,32 +36,18 @@
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
-			<optional>true</optional>
-		</dependency>
-		<dependency>
-			<groupId>org.jooq</groupId>
-			<artifactId>jooq</artifactId>
-			<version>${jooq.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.jooq</groupId>
-			<artifactId>jooq-meta</artifactId>
-			<version>${jooq.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.jooq</groupId>
-			<artifactId>jooq-codegen</artifactId>
-			<version>${jooq.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.postgresql</groupId>
-			<artifactId>postgresql</artifactId>
-			<version>${postgresql.version}</version>
+			<version>${lombok.version}</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>r2dbc-postgresql</artifactId>
 			<version>${r2dbc-postgresql.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.abl.rjmdb</groupId>
+			<artifactId>models</artifactId>
+			<version>1.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.modelmapper.extensions</groupId>
@@ -85,6 +75,11 @@
 			<artifactId>reactor-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.liquibase</groupId>
+			<artifactId>liquibase-core</artifactId>
+			<version>${liquibase.version}</version>
+		</dependency>
 	</dependencies>
 
 	<profiles>
@@ -99,42 +94,38 @@
 			<build>
 				<plugins>
 					<plugin>
-						<groupId>org.jooq</groupId>
-						<artifactId>jooq-codegen-maven</artifactId>
-						<version>${jooq.version}</version>
-
+						<groupId>org.liquibase</groupId>
+						<artifactId>liquibase-maven-plugin</artifactId>
+						<version>${liquibase-maven-plugin.version}</version>
 						<executions>
 							<execution>
-								<phase>generate-sources</phase>
+								<phase>generate-resources</phase>
 								<goals>
-									<goal>generate</goal>
+									<goal>update</goal>
 								</goals>
 							</execution>
 						</executions>
-
+						<dependencies>
+							<dependency>
+								<groupId>com.abl.rjmdb</groupId>
+								<artifactId>liquibase</artifactId>
+								<version>1.0-SNAPSHOT</version>
+							</dependency>
+							<dependency>
+								<groupId>org.postgresql</groupId>
+								<artifactId>postgresql</artifactId>
+								<version>${postgresql.version}</version>
+							</dependency>
+						</dependencies>
 						<configuration>
-							<jdbc>
-								<url>${database.url}</url>
-								<user>${database.user}</user>
-								<password>${database.password}</password>
-							</jdbc>
-							<generator>
-								<database>
-									<includes>.*</includes>
-									<inputSchema>${database.schema}</inputSchema>
-								</database>
-								<target>
-									<packageName>com.abl.rjmdb.model.jooq</packageName>
-									<directory>${project.build.directory}/generated-sources/jooq</directory>
-								</target>
-							</generator>
+							<searchPath>${basedir}/src/main/resources</searchPath>
+							<propertyFile>liquibase.properties</propertyFile>
 						</configuration>
 					</plugin>
 				</plugins>
 			</build>
 		</profile>
 	</profiles>
-
 
 	<build>
 		<plugins>

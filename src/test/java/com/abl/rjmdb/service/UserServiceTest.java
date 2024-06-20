@@ -1,9 +1,9 @@
 package com.abl.rjmdb.service;
 
 import com.abl.rjmdb.model.User;
+import com.abl.rjmdb.persistance.UserRepository;
 import com.abl.rjmdb.model.UserSignupInfo;
 import com.abl.rjmdb.model.jooq.tables.records.ClientRecord;
-import com.abl.rjmdb.persistance.UserRepository;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

@@ -3,13 +3,3 @@
 spring:
   config:
     import: "configserver:http://localhost:8888"
-
-persistence:
-  database:
-    driver: "postgresql"
-    protocol: "r2dbc"
-    host: "127.0.0.1"
-    port: 5432
-    user: "user"
-    password: "password"
-    database-name: "db"
